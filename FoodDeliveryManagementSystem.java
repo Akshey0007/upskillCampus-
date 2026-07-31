@@ -1,36 +1,67 @@
+import java.util.Scanner;
 
-import java.util.*;
 public class FoodDeliveryManagementSystem {
-    static Scanner sc=new Scanner(System.in);
-    static String[] items={"Pizza","Burger","Pasta","Sandwich","Cold Drink"};
-    static int[] prices={250,120,180,150,60};
-    public static void main(String[] args){
-        System.out.println("=== Food Delivery Management System ===");
-        System.out.print("Enter Username: ");
-        String u=sc.nextLine();
-        System.out.print("Enter Password: ");
-        String p=sc.nextLine();
-        if(!u.equals("admin")||!p.equals("1234")){
-            System.out.println("Invalid Login");
-            return;
+
+    static Scanner sc = new Scanner(System.in);
+
+    static String username = "admin";
+    static String password = "1234";
+
+    static String[] items = {"Pizza", "Burger", "Pasta", "Cold Drink"};
+    static int[] prices = {250, 120, 180, 60};
+
+    public static boolean login() {
+
+        System.out.print("Username: ");
+        String u = sc.nextLine();
+
+        System.out.print("Password: ");
+        String p = sc.nextLine();
+
+        return username.equals(u) && password.equals(p);
+    }
+
+    public static void showMenu() {
+
+        System.out.println("\n----- MENU -----");
+
+        for (int i = 0; i < items.length; i++) {
+            System.out.println((i + 1) + ". " + items[i] + " - Rs." + prices[i]);
         }
-        int grand=0;
-        while(true){
-            System.out.println("\nMenu");
-            for(int i=0;i<items.length;i++) System.out.println((i+1)+". "+items[i]+" Rs."+prices[i]);
-            try{
-                System.out.print("Choice: ");
-                int ch=Integer.parseInt(sc.nextLine());
-                System.out.print("Quantity: ");
-                int q=Integer.parseInt(sc.nextLine());
-                int total=prices[ch-1]*q;
-                grand+=total;
-                System.out.println("Bill: Rs."+total);
-            }catch(Exception e){System.out.println("Invalid input");}
-            System.out.print("More orders? (y/n): ");
-            if(!sc.nextLine().equalsIgnoreCase("y")) break;
-        }
-        System.out.println("Grand Total: Rs."+grand);
+
+        System.out.print("Choose Item: ");
+        int choice = sc.nextInt();
+
+        System.out.print("Quantity: ");
+        int qty = sc.nextInt();
+
+        generateBill(choice, qty);
+    }
+
+    public static void generateBill(int choice, int qty) {
+
+        int total = prices[choice - 1] * qty;
+
+        System.out.println("\n========== BILL ==========");
+        System.out.println("Item: " + items[choice - 1]);
+        System.out.println("Price: Rs." + prices[choice - 1]);
+        System.out.println("Quantity: " + qty);
+        System.out.println("--------------------------");
+        System.out.println("Total: Rs." + total);
+        System.out.println("==========================");
         System.out.println("Thank You!");
+    }
+
+    public static void main(String[] args) {
+
+        System.out.println("====================================");
+        System.out.println(" FOOD DELIVERY MANAGEMENT SYSTEM");
+        System.out.println("====================================");
+
+        if (login()) {
+            showMenu();
+        } else {
+            System.out.println("Invalid Login!");
+        }
     }
 }
